@@ -16,6 +16,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css">
   <script type="module" src="./app.js"></script>
+  <script type="module" src="./playbook.js"></script>
 </head>
 <body data-team="arena">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -23,6 +24,7 @@
     <a class="brand" href="#top" aria-label="Ethan's Arena, back to top">ETHAN<span> // </span>ARENA</a>
     <nav aria-label="Primary navigation">
       <a href="#teams">TEAMS</a>
+      <a href="#playbook">PLAYBOOK</a>
       <a href="#play">PLAY</a>
       <a href="#trivia">TRIVIA</a>
       <a href="#adventures">ADVENTURES</a>
@@ -83,6 +85,61 @@
         <article><span class="personal-number">01 / FIELD</span><div class="personal-icon" aria-hidden="true">⚑</div><h3>FLAG FOOTBALL</h3><p>Fast routes, clever plays, and the thrill of getting open.</p></article>
         <article><span class="personal-number">02 / COURT</span><div class="personal-icon" aria-hidden="true">◎</div><h3>CURRY RANGE</h3><p>Inspired by Stephen Curry's fearless shots from way downtown.</p></article>
         <article><span class="personal-number">03 / ADVENTURE</span><div class="personal-icon" aria-hidden="true">✦</div><h3>VEGAS WITH DAD</h3><p>Trips, laughs, and memories that matter more than any scoreboard.</p></article>
+      </div>
+    </section>
+
+    <section id="playbook" class="section-shell playbook-section" aria-labelledby="playbook-title">
+      <div class="section-heading"><div><p class="eyebrow">COACH'S BOARD</p><h2 id="playbook-title">THE <em>PLAYBOOK.</em></h2></div><p>Draw it. Run it. Name it. This is your board — design the play, watch it unfold, and keep the ones that score.</p></div>
+      <div class="playbook-layout">
+        <div class="playbook-board">
+          <div class="playbook-field-wrap" id="playbook-field-wrap">
+            <svg id="playbook-field" class="playbook-field" viewBox="0 0 300 200" role="img" aria-label="Flag football field showing the current play">
+              <rect class="pb-grass" x="0" y="0" width="300" height="200"/>
+              <rect class="pb-endzone" x="0" y="0" width="300" height="30"/>
+              <text class="pb-endzone-label" x="150" y="19" text-anchor="middle">END ZONE</text>
+              <line class="pb-yard" x1="0" y1="55" x2="300" y2="55"/>
+              <line class="pb-yard" x1="0" y1="80" x2="300" y2="80"/>
+              <line class="pb-yard" x1="0" y1="105" x2="300" y2="105"/>
+              <line class="pb-los" x1="0" y1="130" x2="300" y2="130"/>
+              <line class="pb-yard" x1="0" y1="155" x2="300" y2="155"/>
+              <line class="pb-yard" x1="0" y1="180" x2="300" y2="180"/>
+            </svg>
+          </div>
+          <p class="playbook-result" id="playbook-result" role="status" aria-live="polite">The Reverse is loaded. Hit RUN PLAY.</p>
+          <div class="playbook-actions">
+            <button id="playbook-run" class="button" type="button">RUN PLAY <span aria-hidden="true">↗</span></button>
+            <button id="playbook-blitz" class="outline-button" type="button" aria-pressed="false">BLITZ: OFF</button>
+          </div>
+          <p class="playbook-hint" id="playbook-run-hint"></p>
+          <p class="playbook-tip" id="playbook-tip">COACH'S TIP: If they blitz with the center guy, run the in — that's open.</p>
+        </div>
+        <div class="playbook-controls">
+          <span class="mini-label">1. PICK A RECEIVER</span>
+          <div class="pb-receivers" role="group" aria-label="Receivers">
+            <button class="outline-button" type="button" data-receiver="X" aria-pressed="true">X <span class="pb-assigned">—</span></button>
+            <button class="outline-button" type="button" data-receiver="Y" aria-pressed="false">Y <span class="pb-assigned">—</span></button>
+            <button class="outline-button" type="button" data-receiver="Z" aria-pressed="false">Z <span class="pb-assigned">—</span></button>
+          </div>
+          <span class="mini-label" id="playbook-route-for">2. PICK A ROUTE</span>
+          <div class="pb-routes-menu" role="group" aria-labelledby="playbook-route-for">
+            <button class="outline-button" type="button" data-route="go" aria-pressed="false">GO</button>
+            <button class="outline-button" type="button" data-route="out" aria-pressed="false">OUT</button>
+            <button class="outline-button" type="button" data-route="in" aria-pressed="false">IN</button>
+            <button class="outline-button" type="button" data-route="slant" aria-pressed="false">SLANT</button>
+            <button class="outline-button" type="button" data-route="curl" aria-pressed="false">CURL</button>
+            <button class="outline-button" type="button" data-route="reverse" aria-pressed="false">REVERSE</button>
+          </div>
+          <span class="mini-label">3. SAVE IT</span>
+          <div class="pb-save">
+            <label for="playbook-name" class="visually-hidden">Name your play</label>
+            <input id="playbook-name" type="text" maxlength="40" placeholder="Name your play" autocomplete="off">
+            <button id="playbook-save" class="outline-button" type="button">SAVE PLAY</button>
+          </div>
+          <p class="playbook-hint" id="playbook-save-status" role="status" aria-live="polite"></p>
+          <span class="mini-label">MY PLAYS</span>
+          <ul class="pb-plays" id="playbook-plays"></ul>
+          <p class="playbook-hint" id="playbook-empty">No plays saved yet. Draw one above.</p>
+        </div>
       </div>
     </section>
 

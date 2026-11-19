@@ -33,6 +33,8 @@ function earnBadge(id) {
   unlocked.push(id);
   storage.set('badges', unlocked);
   renderBadges();
+// Other modules (playbook.js) announce badges with an 'arena:badge' event.
+document.addEventListener('arena:badge', (event) => earnBadge(event.detail));
 }
 renderBadges();
 

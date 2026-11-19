@@ -7,6 +7,7 @@ A handcrafted, sports-inspired personal website celebrating Ethan's favorite tea
 - Original responsive night-arena art direction, with team-color themes for the Bengals, Warriors, and Golden Knights
 - Optional, procedurally generated Three.js football, basketball, and hockey puck scene
 - **Shoot the Three:** keyboard/touch timing game, ten shots per round, device-local personal best
+- **The Playbook:** a flag-football coach's board. Pick a route for each receiver (Go, Out, In, Slant, Curl, Reverse), run the play, toggle the blitz, and save named plays on this device. Ships with three coach's plays
 - **Quiz Hall:** Trivia Blitz with Football, Basketball and Hockey decks (8 questions each, 24 total) plus a Mixed deck of 10; best score saved per deck on this device
 - **Number Game:** match six players to their jersey numbers; a player card appears on each correct answer
 - Four achievement badges unlocked by exploring and playing
@@ -49,6 +50,7 @@ Alternatively, a private preview can be hosted through a provider chosen by the 
 - `index.html` — accessible semantic content and game controls
 - `styles.css` — responsive art direction, team themes, and reduced-motion styles
 - `app.js` — games, trivia, badges, themes, device-local persistence, optional audio
+- `playbook.js` — The Playbook coach's board (self-contained module; announces badges with an `arena:badge` event)
 - `arena.js` — lazy Three.js enhancement with static and low-power fallbacks
 - `favicon.svg` — original site mark
 - `tests/site.test.mjs` — dependency-free smoke tests
