@@ -15,14 +15,16 @@ const storage = {
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // Trophy Case: 13 badges. Badges marked "soon" belong to rooms that are not built yet.
+// go/where: the game that earns the badge (the badge card and NEXT UP link there).
+// near: the status line in that game; the unlock banner appears right after it.
 const BADGES = {
-  explorer: { name: 'THE EXPLORER', hint: 'scroll down to the teams' },
-  team: { name: 'TEAM SPIRIT', hint: 'pick a team to change the arena colors' },
-  shooter: { name: 'SHARP SHOOTER', hint: 'make a three in Shoot the Three' },
-  trivia: { name: 'TRIVIA FINISHER', hint: 'finish any Quiz Hall deck' },
-  playcaller: { name: 'PLAY CALLER', hint: 'pick a route on the Playbook board' },
-  routerunner: { name: 'ROUTE RUNNER', hint: 'save three plays in the Playbook' },
-  numbers: { name: 'NUMBER CRUNCHER', hint: 'finish the Number Game' },
+  explorer: { name: 'THE EXPLORER', hint: 'scroll down to the teams', go: '#teams', where: 'the teams', near: 'theme-status' },
+  team: { name: 'TEAM SPIRIT', hint: 'pick a team to change the arena colors', go: '#teams', where: 'the teams', near: 'theme-status' },
+  shooter: { name: 'SHARP SHOOTER', hint: 'make a three in Shoot the Three', go: '#play', where: 'Shoot the Three', near: 'shot-message' },
+  trivia: { name: 'TRIVIA FINISHER', hint: 'finish any Quiz Hall deck', go: '#trivia', where: 'Quiz Hall', near: 'trivia-feedback' },
+  playcaller: { name: 'PLAY CALLER', hint: 'pick a route on the Playbook board', go: '#playbook', where: 'The Playbook', near: 'playbook-result' },
+  routerunner: { name: 'ROUTE RUNNER', hint: 'save three plays in the Playbook', go: '#playbook', where: 'The Playbook', near: 'playbook-save-status' },
+  numbers: { name: 'NUMBER CRUNCHER', hint: 'finish the Number Game', go: '#numbers', where: 'the Number Game', near: 'number-feedback' },
   downtown: { name: 'DOWNTOWN', soon: true },
   recordchaser: { name: 'RECORD CHASER', soon: true },
   hattrick: { name: 'HAT TRICK HERO', soon: true },
@@ -34,10 +36,9 @@ const badgeIds = Object.keys(BADGES);
 let unlocked = storage.get('badges', []);
 if (!Array.isArray(unlocked)) unlocked = [];
 unlocked = unlocked.filter((id) => badgeIds.includes(id));
-let toastTimer = 0;
 function progressText() { return unlocked.length + ' OF ' + badgeIds.length + ' UNLOCKED'; }
-function nextUpText() {
-  const next = badgeIds.find((id) => !unlocked.includes(id) && !BADGES[id].soon && id !== 'legend');
+function nextBadge() { return badgeIds.find((id) => !unlocked.includes(id) && !BADGES[id].soon && id !== 'legend'); }
+function nextUpText(next) {
   if (!next) return unlocked.includes('legend') ? 'EVERY BADGE EARNED. LEGEND.' : 'NEXT UP: more rooms of the arena are on the way.';
   let hint = BADGES[next].hint;
   if (next === 'routerunner') {
@@ -51,23 +52,84 @@ function renderBadges() {
   badgeIds.forEach((id) => {
     const item = document.querySelector('[data-badge="' + id + '"]');
     if (item) {
+      const badge = BADGES[id];
       const has = unlocked.includes(id);
       item.classList.toggle('unlocked', has);
-      item.setAttribute('aria-label', BADGES[id].name + ': ' + (has ? 'unlocked' : BADGES[id].soon ? 'locked, coming soon' : 'locked'));
+      item.setAttribute('aria-label', badge.name + ': ' + (has ? 'unlocked' : badge.soon ? 'locked, coming soon' : 'locked') + (badge.go ? '. Go to ' + badge.where : ''));
     }
   });
-  if (!toastTimer) $('badge-progress').textContent = progressText();
-  $('badge-next').textContent = nextUpText();
+  $('badge-progress').textContent = progressText();
+  const next = nextBadge();
+  const line = $('badge-next');
+  if (next && BADGES[next].go) {
+    const link = document.createElement('a');
+    link.className = 'badge-next-link';
+    link.href = BADGES[next].go;
+    link.textContent = nextUpText(next);
+    line.replaceChildren(link);
+  } else {
+    line.textContent = nextUpText(next);
+  }
+}
+// Unlock banner: shown in the game where the badge was earned, so the
+// celebration lands where Ethan is looking. It stays about 5 seconds, longer
+// while it has keyboard focus, and can be dismissed.
+const banners = new Map();
+function hideBanner(banner) {
+  window.clearTimeout(banner.timer);
+  banner.timer = 0;
+  banner.wrap.hidden = true;
+  banner.text.textContent = '';
+}
+function bannerFor(anchorId) {
+  if (banners.has(anchorId)) return banners.get(anchorId);
+  const anchor = $(anchorId);
+  if (!anchor) return null;
+  const wrap = document.createElement('div');
+  wrap.className = 'unlock-banner';
+  wrap.hidden = true;
+  const text = document.createElement('p');
+  text.setAttribute('role', 'status');
+  const close = document.createElement('button');
+  close.type = 'button';
+  close.className = 'unlock-close';
+  close.setAttribute('aria-label', 'Dismiss badge message');
+  close.textContent = '✕';
+  wrap.append(text, close);
+  anchor.after(wrap);
+  const banner = { wrap, text, timer: 0 };
+  close.addEventListener('click', () => hideBanner(banner));
+  wrap.addEventListener('focusin', () => { window.clearTimeout(banner.timer); banner.timer = 0; });
+  wrap.addEventListener('focusout', (event) => {
+    if (!wrap.hidden && !wrap.contains(event.relatedTarget)) banner.timer = window.setTimeout(() => hideBanner(banner), 5000);
+  });
+  banners.set(anchorId, banner);
+  return banner;
+}
+function showUnlockBanner(names, anchorId) {
+  const banner = bannerFor(anchorId);
+  if (!banner) return;
+  window.clearTimeout(banner.timer);
+  banner.text.textContent = '';
+  banner.wrap.hidden = false;
+  banner.wrap.classList.remove('pop');
+  void banner.wrap.offsetWidth; // restart the pop animation
+  banner.wrap.classList.add('pop');
+  // Fill the status text a moment after it is shown so screen readers announce it.
+  window.setTimeout(() => { if (!banner.wrap.hidden) banner.text.textContent = 'BADGE UNLOCKED: ' + names.join(' + ') + '!'; }, 60);
+  banner.timer = window.setTimeout(() => hideBanner(banner), 5000);
 }
 function earnBadge(id) {
   if (!badgeIds.includes(id) || unlocked.includes(id)) return;
   unlocked.push(id);
-  if (badgeIds.every((b) => b === 'legend' || unlocked.includes(b)) && !unlocked.includes('legend')) unlocked.push('legend');
+  const names = [BADGES[id].name];
+  if (badgeIds.every((b) => b === 'legend' || unlocked.includes(b)) && !unlocked.includes('legend')) {
+    unlocked.push('legend');
+    names.push(BADGES.legend.name);
+  }
   storage.set('badges', unlocked);
-  window.clearTimeout(toastTimer);
-  $('badge-progress').textContent = 'BADGE UNLOCKED: ' + BADGES[id].name + '!';
-  toastTimer = window.setTimeout(() => { toastTimer = 0; $('badge-progress').textContent = progressText(); }, 3000);
   renderBadges();
+  showUnlockBanner(names, BADGES[id].near);
 }
 renderBadges();
 // Other modules (playbook.js) announce badges with an 'arena:badge' event.

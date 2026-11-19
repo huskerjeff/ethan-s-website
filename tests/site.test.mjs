@@ -124,3 +124,32 @@ test('Trophy Case has 13 badges with SVG glyphs and wired unlocks', () => {
   assert.match(app, /NEXT UP: /);
   assert.ok(html.includes('id="badge-next"'));
 });
+
+test('Trophy Case round 4: badge links, unlock banner, progress on top', () => {
+  const shelf = html.slice(html.indexOf('id="trophies"'), html.indexOf('id="adventures"'));
+  // 1. The seven earnable badges link to the game that earns them; COMING SOON badges stay plain.
+  const links = { explorer: 'teams', team: 'teams', shooter: 'play', trivia: 'trivia', playcaller: 'playbook', routerunner: 'playbook', numbers: 'numbers' };
+  for (const [id, target] of Object.entries(links)) {
+    assert.ok(shelf.includes('<a class="achievement" data-badge="' + id + '" href="#' + target + '">'), 'Badge should link to its game: ' + id);
+    assert.ok(app.includes("go: '#" + target + "'"), 'BADGES entry should point to #' + target);
+  }
+  assert.equal((shelf.match(/<a class="achievement"/g) || []).length, 7);
+  assert.equal((shelf.match(/<div class="achievement"[^>]*data-soon/g) || []).length, 5);
+  assert.match(app, /badge-next-link/);
+  assert.match(css, /a\.achievement:focus-visible/);
+  // 2. Unlocks show a dismissible banner next to the game's own status line.
+  for (const near of ['theme-status', 'shot-message', 'trivia-feedback', 'playbook-result', 'playbook-save-status', 'number-feedback']) {
+    assert.ok(app.includes("near: '" + near + "'"), 'Missing banner spot: ' + near);
+    assert.ok(html.includes('id="' + near + '"'), 'Banner spot missing from page: ' + near);
+  }
+  assert.match(app, /'BADGE UNLOCKED: '/);
+  assert.match(app, /Dismiss badge message/);
+  assert.match(css, /\.unlock-close\{[^}]*min-height:44px/);
+  assert.match(css, /prefers-reduced-motion:no-preference\)\{\.unlock-banner\.pop/);
+  // 3. Progress and NEXT UP sit directly under the heading, above the grid.
+  const heading = shelf.indexOf('id="badges-title"');
+  const progress = shelf.indexOf('id="badge-progress"');
+  const next = shelf.indexOf('id="badge-next"');
+  const grid = shelf.indexOf('class="badge-grid"');
+  assert.ok(heading < progress && progress < next && next < grid, 'Progress and NEXT UP should come before the badge grid');
+});

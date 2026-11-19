@@ -194,14 +194,16 @@
 
     <section id="trophies" class="section-shell badges-section" aria-labelledby="badges-title">
       <div class="section-heading"><div><p class="eyebrow">YOUR TROPHY CASE</p><h2 id="badges-title">EARN YOUR <em>STRIPES.</em></h2></div><p>Thirteen badges, one shelf. Some unlock in rooms of the arena that are still being built. Progress is saved on this device, no account needed.</p></div>
+      <p class="badge-progress" id="badge-progress">0 OF 13 UNLOCKED</p>
+      <p class="badge-next" id="badge-next"></p>
       <div class="badge-grid">
-        <div class="achievement" data-badge="explorer"><span aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 13.5 13.5 8.5 15.5 10.5 10.5Z"/></svg></span><strong>THE EXPLORER</strong><small>Visit the teams</small></div>
-        <div class="achievement" data-badge="team"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 14.6 8.6 20.6 9.2 16 13.2 17.4 19.2 12 16 6.6 19.2 8 13.2 3.4 9.2 9.4 8.6Z"/></svg></span><strong>TEAM SPIRIT</strong><small>Choose a team theme</small></div>
-        <div class="achievement" data-badge="shooter"><span aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></span><strong>SHARP SHOOTER</strong><small>Make a three</small></div>
-        <div class="achievement" data-badge="trivia"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18h16M5 18 4 7l5 4 3-6 3 6 5-4-1 11"/></svg></span><strong>TRIVIA FINISHER</strong><small>Finish a quiz</small></div>
-        <div class="achievement" data-badge="playcaller"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19V9l6-4M11 5l-1 3.5M11 5l-3.5.5"/><circle cx="17" cy="17" r="3"/></svg></span><strong>PLAY CALLER</strong><small>Draw your first play on the board</small></div>
-        <div class="achievement" data-badge="routerunner"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h10M4 12h13M4 17h16M14 4l3 3-3 3"/></svg></span><strong>ROUTE RUNNER</strong><small>Save three plays in the Playbook</small></div>
-        <div class="achievement" data-badge="numbers"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 4 7 20M17 4l-2 16M4 9h16M3.5 15h16"/></svg></span><strong>NUMBER CRUNCHER</strong><small>Finish the Number Game</small></div>
+        <a class="achievement" data-badge="explorer" href="#teams"><span aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 13.5 13.5 8.5 15.5 10.5 10.5Z"/></svg></span><strong>THE EXPLORER</strong><small>Visit the teams</small></a>
+        <a class="achievement" data-badge="team" href="#teams"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 14.6 8.6 20.6 9.2 16 13.2 17.4 19.2 12 16 6.6 19.2 8 13.2 3.4 9.2 9.4 8.6Z"/></svg></span><strong>TEAM SPIRIT</strong><small>Choose a team theme</small></a>
+        <a class="achievement" data-badge="shooter" href="#play"><span aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/></svg></span><strong>SHARP SHOOTER</strong><small>Make a three</small></a>
+        <a class="achievement" data-badge="trivia" href="#trivia"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 18h16M5 18 4 7l5 4 3-6 3 6 5-4-1 11"/></svg></span><strong>TRIVIA FINISHER</strong><small>Finish a quiz</small></a>
+        <a class="achievement" data-badge="playcaller" href="#playbook"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19V9l6-4M11 5l-1 3.5M11 5l-3.5.5"/><circle cx="17" cy="17" r="3"/></svg></span><strong>PLAY CALLER</strong><small>Draw your first play on the board</small></a>
+        <a class="achievement" data-badge="routerunner" href="#playbook"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h10M4 12h13M4 17h16M14 4l3 3-3 3"/></svg></span><strong>ROUTE RUNNER</strong><small>Save three plays in the Playbook</small></a>
+        <a class="achievement" data-badge="numbers" href="#numbers"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 4 7 20M17 4l-2 16M4 9h16M3.5 15h16"/></svg></span><strong>NUMBER CRUNCHER</strong><small>Finish the Number Game</small></a>
         <div class="achievement" data-badge="downtown" data-soon><span aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c3.5 3.5 3.5 9.3 0 12.8M18.4 5.6c-3.5 3.5-3.5 9.3 0 12.8"/></svg></span><strong>DOWNTOWN</strong><small>Reach Half Court on the Curry ladder</small></div>
         <div class="achievement" data-badge="recordchaser" data-soon><span aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="6" width="10" height="14" rx="1.5"/><path d="M9 4h9.5A1.5 1.5 0 0 1 20 5.5V17"/></svg></span><strong>RECORD CHASER</strong><small>Flip all four cards on the Record Wall</small></div>
         <div class="achievement" data-badge="hattrick" data-soon><span aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="9" rx="8" ry="3"/><path d="M4 9v4c0 1.7 3.6 3 8 3s8-1.3 8-3V9"/></svg></span><strong>HAT TRICK HERO</strong><small>Score three goals in the Knights challenge</small></div>
@@ -209,8 +211,6 @@
         <div class="achievement" data-badge="journalist" data-soon><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20l1-4L16 5l3 3L8 19Z M14 7l3 3"/></svg></span><strong>JOURNALIST</strong><small>Write your first moment in the Journal</small></div>
         <div class="achievement" data-badge="legend"><span aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0Z M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M9.5 17h5v3h-5Z"/></svg></span><strong>ARENA LEGEND</strong><small>Unlock every other badge</small></div>
       </div>
-      <p class="badge-progress" id="badge-progress" aria-live="polite">0 OF 13 UNLOCKED</p>
-      <p class="badge-next" id="badge-next"></p>
     </section>
 
     <section id="adventures" class="section-shell" aria-labelledby="adventures-title">
