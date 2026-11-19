@@ -114,3 +114,8 @@ footer span:first-child{font:900 23px 'Barlow Condensed',Impact,sans-serif;color
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.court-ball.swish,.court-ball.miss{animation:none}}
 
 [hidden]{display:none!important}
+.deck-picker{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}.trivia-panel .deck-picker .deck-select{margin:0}.deck-select[aria-pressed=true]{border-color:var(--accent);background:#ffffff2b;color:var(--accent-soft)}
+.deck-intro{margin:0 0 18px;font-size:12px;font-weight:800;letter-spacing:1px;color:var(--muted)}
+.number-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.number-grid .answer{text-align:center;font:900 34px 'Barlow Condensed',Impact,sans-serif}
+.player-card{margin:6px 0 0;padding:12px 16px;border-left:3px solid var(--accent);background:#ffffff0c;border-radius:6px;font-size:14px;font-weight:600}
+@media(max-width:390px){.deck-picker .deck-select{flex:1 1 calc(50% - 10px)}.number-grid{grid-template-columns:1fr}}

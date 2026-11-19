@@ -19,7 +19,7 @@ test('site assets and semantic navigation are wired', () => {
 });
 
 test('games, themes and badges have accessible hooks', () => {
-  for (const id of ['shot-button', 'shot-reset', 'shot-score', 'shot-round', 'shot-best', 'shot-meter', 'meter-marker', 'shot-message', 'trivia-question', 'trivia-answers', 'trivia-next', 'trivia-restart', 'trivia-feedback', 'badge-progress', 'motion']) {
+  for (const id of ['shot-button', 'shot-reset', 'shot-score', 'shot-round', 'shot-best', 'shot-meter', 'meter-marker', 'shot-message', 'trivia-question', 'trivia-answers', 'trivia-next', 'trivia-restart', 'trivia-feedback', 'trivia-deck-intro', 'number-question', 'number-answers', 'number-next', 'number-restart', 'number-feedback', 'number-card', 'number-progress', 'number-streak', 'number-best', 'badge-progress', 'motion']) {
     assert.ok(html.includes('id="' + id + '"'), 'Missing element: ' + id);
   }
   assert.equal((html.match(/class="team-select"/g) || []).length, 3);
@@ -27,7 +27,6 @@ test('games, themes and badges have accessible hooks', () => {
   assert.ok((html.match(/aria-live="polite"/g) || []).length >= 3);
   assert.match(app, /localStorage/);
   assert.match(app, /catch \{/);
-  assert.equal((app.match(/question: '/g) || []).length, 6);
 });
 
 test('responsive and reduced-motion fallback styles are present', () => {
@@ -56,4 +55,40 @@ test('site remains child-safe and asset-light', () => {
   assert.match(favicon, /<svg\b/);
   assert.match(html, /<meta name="theme-color"/);
   assert.match(html, /<meta property="og:title"/);
+});
+
+// Pull every q(...) entry out of a named block in app.js and evaluate it with a stub.
+// The block runs from startMarker to the first line that is only "]" or "];".
+function questionsIn(source, startMarker) {
+  const lines = source.slice(source.indexOf(startMarker)).split(/\r?\n/).map((line) => line.trim());
+  const end = lines.findIndex((line, i) => i > 0 && (line === ']' || line === '];'));
+  const q = (question, answers, correct, card) => ({ question, answers, correct, card });
+  return lines.slice(0, end).filter((line) => line.startsWith('q('))
+    .map((line) => new Function('q', 'return ' + line.replace(/,$/, ''))(q));
+}
+
+test('Quiz Hall has three 8-question decks with valid answers', () => {
+  for (const deck of ['football', 'basketball', 'hockey']) {
+    const questions = questionsIn(app, deck + ': {');
+    assert.equal(questions.length, 8, deck + ' deck should have 8 questions');
+    for (const item of questions) {
+      assert.equal(item.answers.length, 4, item.question);
+      assert.ok(item.answers.includes(item.correct), 'Correct answer missing: ' + item.question);
+      assert.equal(new Set(item.answers).size, 4, 'Duplicate answers: ' + item.question);
+    }
+    assert.ok(html.includes('data-deck="' + deck + '"'), 'Missing deck button: ' + deck);
+  }
+  assert.ok(html.includes('data-deck="mixed"'));
+  assert.match(app, /const MIXED_COUNT = 10;/);
+});
+
+test('Number Game has six players with cards', () => {
+  const numbers = questionsIn(app, 'const numberBank');
+  assert.equal(numbers.length, 6);
+  for (const item of numbers) {
+    assert.equal(item.answers.length, 3, item.question);
+    assert.ok(item.answers.includes(item.correct), item.question);
+    assert.ok(item.card && item.card.length > 10, 'Missing player card: ' + item.question);
+  }
+  assert.match(html, /<section id="numbers"/);
 });
