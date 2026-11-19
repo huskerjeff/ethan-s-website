@@ -14,29 +14,64 @@ const storage = {
 };
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const badgeIds = ['explorer', 'team', 'shooter', 'trivia'];
+// Trophy Case: 13 badges. Badges marked "soon" belong to rooms that are not built yet.
+const BADGES = {
+  explorer: { name: 'THE EXPLORER', hint: 'scroll down to the teams' },
+  team: { name: 'TEAM SPIRIT', hint: 'pick a team to change the arena colors' },
+  shooter: { name: 'SHARP SHOOTER', hint: 'make a three in Shoot the Three' },
+  trivia: { name: 'TRIVIA FINISHER', hint: 'finish any Quiz Hall deck' },
+  playcaller: { name: 'PLAY CALLER', hint: 'pick a route on the Playbook board' },
+  routerunner: { name: 'ROUTE RUNNER', hint: 'save three plays in the Playbook' },
+  numbers: { name: 'NUMBER CRUNCHER', hint: 'finish the Number Game' },
+  downtown: { name: 'DOWNTOWN', soon: true },
+  recordchaser: { name: 'RECORD CHASER', soon: true },
+  hattrick: { name: 'HAT TRICK HERO', soon: true },
+  desert: { name: 'DESERT EXPLORER', soon: true },
+  journalist: { name: 'JOURNALIST', soon: true },
+  legend: { name: 'ARENA LEGEND', hint: 'unlock every other badge' }
+};
+const badgeIds = Object.keys(BADGES);
 let unlocked = storage.get('badges', []);
 if (!Array.isArray(unlocked)) unlocked = [];
 unlocked = unlocked.filter((id) => badgeIds.includes(id));
+let toastTimer = 0;
+function progressText() { return unlocked.length + ' OF ' + badgeIds.length + ' UNLOCKED'; }
+function nextUpText() {
+  const next = badgeIds.find((id) => !unlocked.includes(id) && !BADGES[id].soon && id !== 'legend');
+  if (!next) return unlocked.includes('legend') ? 'EVERY BADGE EARNED. LEGEND.' : 'NEXT UP: more rooms of the arena are on the way.';
+  let hint = BADGES[next].hint;
+  if (next === 'routerunner') {
+    const plays = storage.get('plays', []);
+    const left = Math.max(1, 3 - (Array.isArray(plays) ? plays.length : 0));
+    hint = 'save ' + left + ' more play' + (left === 1 ? '' : 's') + ' in the Playbook';
+  }
+  return 'NEXT UP: ' + BADGES[next].name + ' — ' + hint + '.';
+}
 function renderBadges() {
   badgeIds.forEach((id) => {
     const item = document.querySelector('[data-badge="' + id + '"]');
     if (item) {
-      item.classList.toggle('unlocked', unlocked.includes(id));
-      item.setAttribute('aria-label', id + ': ' + (unlocked.includes(id) ? 'unlocked' : 'locked'));
+      const has = unlocked.includes(id);
+      item.classList.toggle('unlocked', has);
+      item.setAttribute('aria-label', BADGES[id].name + ': ' + (has ? 'unlocked' : BADGES[id].soon ? 'locked, coming soon' : 'locked'));
     }
   });
-  $('badge-progress').textContent = unlocked.length + ' OF ' + badgeIds.length + ' UNLOCKED';
+  if (!toastTimer) $('badge-progress').textContent = progressText();
+  $('badge-next').textContent = nextUpText();
 }
 function earnBadge(id) {
   if (!badgeIds.includes(id) || unlocked.includes(id)) return;
   unlocked.push(id);
+  if (badgeIds.every((b) => b === 'legend' || unlocked.includes(b)) && !unlocked.includes('legend')) unlocked.push('legend');
   storage.set('badges', unlocked);
+  window.clearTimeout(toastTimer);
+  $('badge-progress').textContent = 'BADGE UNLOCKED: ' + BADGES[id].name + '!';
+  toastTimer = window.setTimeout(() => { toastTimer = 0; $('badge-progress').textContent = progressText(); }, 3000);
   renderBadges();
-// Other modules (playbook.js) announce badges with an 'arena:badge' event.
-document.addEventListener('arena:badge', (event) => earnBadge(event.detail));
 }
 renderBadges();
+// Other modules (playbook.js) announce badges with an 'arena:badge' event.
+document.addEventListener('arena:badge', (event) => earnBadge(event.detail));
 
 const themeNames = { arena: 'Arena', bengals: 'Bengals', warriors: 'Warriors', knights: 'Golden Knights' };
 function setTheme(theme, announce = true) {

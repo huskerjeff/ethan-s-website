@@ -23,7 +23,7 @@ test('games, themes and badges have accessible hooks', () => {
     assert.ok(html.includes('id="' + id + '"'), 'Missing element: ' + id);
   }
   assert.equal((html.match(/class="team-select"/g) || []).length, 3);
-  assert.equal((html.match(/class="achievement"/g) || []).length, 4);
+  assert.equal((html.match(/class="achievement"/g) || []).length, 13);
   assert.ok((html.match(/aria-live="polite"/g) || []).length >= 3);
   assert.match(app, /localStorage/);
   assert.match(app, /catch \{/);
@@ -109,4 +109,18 @@ test('The Playbook has six routes, starter plays and the blitz rule', async () =
   assert.match(callPlay({ X: 'go', Y: 'reverse', Z: 'curl' }, false, 'The Reverse').text, /just like Coach drew it/);
   assert.match(pb, /arena:badge/);
   assert.match(app, /addEventListener\('arena:badge'/);
+});
+
+test('Trophy Case has 13 badges with SVG glyphs and wired unlocks', () => {
+  const pb = read('playbook.js');
+  const ids = [...html.matchAll(/data-badge="([^"]+)"/g)].map((m) => m[1]);
+  assert.equal(ids.length, 13);
+  for (const id of ids) assert.ok(app.includes('  ' + id + ": { name: '"), 'Badge missing from BADGES: ' + id);
+  assert.doesNotMatch(html.slice(html.indexOf('badge-grid'), html.indexOf('id="badge-progress"')), /<span aria-hidden="true">[^<]/, 'Badges should use SVG glyphs, not text symbols');
+  assert.equal((html.match(/data-soon/g) || []).length, 5);
+  assert.match(pb, /badge\('playcaller'\)/);
+  assert.match(pb, /badge\('routerunner'\)/);
+  assert.match(app, /earnBadge\('numbers'\)/);
+  assert.match(app, /NEXT UP: /);
+  assert.ok(html.includes('id="badge-next"'));
 });
