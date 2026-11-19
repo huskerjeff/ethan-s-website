@@ -145,3 +145,7 @@ footer span:first-child{font:900 23px 'Barlow Condensed',Impact,sans-serif;color
 @media(max-width:900px){.playbook-layout{grid-template-columns:1fr}}
 @media(max-width:560px){.pb-plays li{flex-wrap:wrap}.pb-plays li>div{flex-basis:100%}.pb-plays li .outline-button{flex:1}}
 @media(prefers-reduced-motion:reduce){.pb-defender{transition:none}}
+.achievement>span svg{width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.achievement[data-soon]::after{content:'COMING SOON';font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--muted);border:1px solid #ffffff30;border-radius:999px;padding:3px 8px}
+.achievement[data-badge=legend]{grid-column:1/-1}
+.badge-next{margin:8px 0 0;font-size:14px;color:var(--muted)}

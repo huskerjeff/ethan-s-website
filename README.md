@@ -10,7 +10,7 @@ A handcrafted, sports-inspired personal website celebrating Ethan's favorite tea
 - **The Playbook:** a flag-football coach's board. Pick a route for each receiver (Go, Out, In, Slant, Curl, Reverse), run the play, toggle the blitz, and save named plays on this device. Ships with three coach's plays
 - **Quiz Hall:** Trivia Blitz with Football, Basketball and Hockey decks (8 questions each, 24 total) plus a Mixed deck of 10; best score saved per deck on this device
 - **Number Game:** match six players to their jersey numbers; a player card appears on each correct answer
-- Four achievement badges unlocked by exploring and playing
+- **Trophy Case:** 13 badges with original SVG glyphs, a NEXT UP hint and an unlock message. Seven can be earned today; five are marked COMING SOON until their rooms are built; ARENA LEGEND unlocks when all others are earned
 - A personal flag-football / Curry / Vegas-with-Dad strip and expandable adventure prompts
 - Optional, **off by default** synthesized swish sound
 - Reduced-motion, keyboard-focus, WebGL failure, and mobile fallbacks
