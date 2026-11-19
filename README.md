@@ -10,7 +10,7 @@ A handcrafted, sports-inspired personal website celebrating Ethan's favorite tea
 - **The Playbook:** a flag-football coach's board. Pick a route for each receiver (Go, Out, In, Slant, Curl, Reverse), run the play, toggle the blitz, and save named plays on this device. Ships with three coach's plays
 - **Quiz Hall:** Trivia Blitz with Football, Basketball and Hockey decks (8 questions each, 24 total) plus a Mixed deck of 10; best score saved per deck on this device
 - **Number Game:** match six players to their jersey numbers; a player card appears on each correct answer
-- **Trophy Case:** 13 badges with original SVG glyphs, a NEXT UP hint and an unlock message. Seven can be earned today; five are marked COMING SOON until their rooms are built; ARENA LEGEND unlocks when all others are earned
+- **Trophy Case:** 13 badges with original SVG glyphs. The progress count and a NEXT UP link sit above the shelf. Seven can be earned today, and each of those badges links to the game that earns it; five are marked COMING SOON until their rooms are built; ARENA LEGEND unlocks when all others are earned. A BADGE UNLOCKED banner appears inside the game where a badge is earned (about 5 seconds, or until dismissed)
 - A personal flag-football / Curry / Vegas-with-Dad strip and expandable adventure prompts
 - Optional, **off by default** synthesized swish sound
 - Reduced-motion, keyboard-focus, WebGL failure, and mobile fallbacks
@@ -65,3 +65,5 @@ Before publishing, manually verify desktop and mobile (320px, 390px, tablet), ke
 ## Design review
 
 This update responds to the Nov 18, 2026 Muse source-only review. The original sports-broadcast palette and lightweight static-site architecture are preserved. The review's suggested `three.module.min.js` URL is **not used without verification**: instead, the pinned `three.module.js` is fetched only after the page loads and the hero becomes visible, and animation pauses when off-screen or in a hidden tab. Deployment remains a separate owner-controlled decision.
+
+Trophy Case round 4 (Nov 19, 2026 Muse quick check, `2026-11-19 Quick check Ethan Trophy Case - round 4 - RESULT.md`): earnable badges link to their games, unlocks show a banner in the game being played, and the progress and NEXT UP lines moved above the badge grid. Verified with the static tests only; phone-width, touch, keyboard and screen-reader checks are still to be done in a real browser.

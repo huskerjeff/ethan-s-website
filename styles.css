@@ -98,7 +98,7 @@ h2{font-size:clamp(50px,7vw,95px);font-weight:900;letter-spacing:-1px;line-heigh
 .achievement.unlocked{opacity:1;filter:none;border-color:var(--accent);background:linear-gradient(150deg,#1d2a47,#172038)}
 .achievement>span{display:grid;place-items:center;width:74px;height:74px;border-radius:50%;border:2px solid #ffffff45;color:var(--accent);font-size:37px;background:#ffffff0a}
 .achievement strong{font-size:24px;line-height:1}.achievement small{font-size:12px;color:var(--muted)}
-.badge-progress{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--cyan);margin:25px 0 0}
+.badge-progress{font-size:12px;font-weight:800;letter-spacing:2px;color:var(--cyan);margin:0}
 .adventure-panel{position:relative;overflow:hidden;border-radius:28px;padding:clamp(26px,5vw,65px);background:linear-gradient(125deg,#ac4329,#692c69 60%,#283b78)}
 .adventure-panel>div:first-child{position:relative;z-index:1;max-width:680px}.adventure-panel h2{margin:10px 0 25px}.adventure-panel h2 em{color:#ffe0a9}.adventure-panel p{line-height:1.7;color:#fff;max-width:600px}
 .adventure-mark{position:absolute;right:5%;top:-90px;font-size:330px;color:#ffffff22;line-height:1;pointer-events:none}
@@ -148,4 +148,12 @@ footer span:first-child{font:900 23px 'Barlow Condensed',Impact,sans-serif;color
 .achievement>span svg{width:38px;height:38px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .achievement[data-soon]::after{content:'COMING SOON';font-size:9px;font-weight:800;letter-spacing:1.5px;color:var(--muted);border:1px solid #ffffff30;border-radius:999px;padding:3px 8px}
 .achievement[data-badge=legend]{grid-column:1/-1}
-.badge-next{margin:8px 0 0;font-size:14px;color:var(--muted)}
+.badge-next{margin:4px 0 22px;font-size:14px;color:var(--muted)}
+a.achievement{color:inherit;cursor:pointer}
+a.achievement:hover{opacity:.85}
+a.achievement:focus-visible{opacity:1;filter:none}
+.badge-next-link{display:inline-flex;align-items:center;min-height:44px;color:var(--text);text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px}
+.unlock-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 0;padding:8px 8px 8px 16px;border:2px solid var(--accent);border-radius:14px;background:linear-gradient(150deg,#1d2a47,#172038);box-shadow:0 0 24px var(--glow)}
+.unlock-banner p{margin:0;font:900 clamp(18px,4.6vw,24px)/1.1 'Barlow Condensed',Impact,sans-serif;letter-spacing:.5px;text-transform:uppercase;color:var(--accent-soft);overflow-wrap:anywhere}
+.unlock-close{flex:none;width:44px;height:44px;min-height:44px;border:1px solid #ffffff45;border-radius:10px;background:#10172a;color:#fff;font-size:16px}
+@media(prefers-reduced-motion:no-preference){.unlock-banner.pop{animation:unlock-pop .45s cubic-bezier(.2,1.4,.4,1)}@keyframes unlock-pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}}
