@@ -1,0 +1,21 @@
+name: Validate Ethan Arena
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntax-check JavaScript
+        run: |
+          node --check app.js
+          node --check arena.js
+      - name: Run dependency-free smoke tests
+        run: npm test

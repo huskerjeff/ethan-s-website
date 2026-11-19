@@ -1,9 +1,142 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ethan's Universe</title><meta name="description" content="Ethan's epic world of sports and adventure."><style>
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;600;800&display=swap');
-:root{color-scheme:dark;--orange:#ff782d;--cyan:#5fe7ff}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#080b18;color:white;font-family:Inter,system-ui,sans-serif;overflow-x:hidden}#scene{position:fixed;inset:0;z-index:-1;pointer-events:none}body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 70% 30%,#25265a99,transparent 55%),linear-gradient(#080b1899,#080b18dd);z-index:-1}header{display:flex;justify-content:space-between;align-items:center;padding:24px 7vw}.brand{font:900 30px 'Barlow Condensed';letter-spacing:3px}.brand span{color:var(--orange)}nav{display:flex;gap:25px}a{color:inherit;text-decoration:none}nav a:hover{color:var(--cyan)}.hero{min-height:78vh;display:flex;align-items:center;padding:5vh 9vw}.hero-inner{max-width:750px}.tag{font-size:12px;font-weight:800;letter-spacing:5px;color:var(--cyan);text-transform:uppercase}h1,h2,h3{font-family:'Barlow Condensed',Impact,sans-serif;text-transform:uppercase}h1{font-size:clamp(90px,17vw,240px);line-height:.75;letter-spacing:-3px;margin:35px 0}h1 span{display:block;color:var(--orange)}.lead{font-size:clamp(17px,2vw,23px);line-height:1.6;color:#d6def3;max-width:530px}.button{display:inline-block;background:var(--orange);color:#111;padding:17px 25px;border-radius:8px;font-weight:800;margin-top:20px;box-shadow:0 15px 50px #ff782d50}.button:hover{transform:translateY(-3px)}section{padding:75px 9vw}h2{font-size:clamp(48px,8vw,90px);line-height:.95;margin:15px 0 35px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.card{border:1px solid #ffffff30;background:linear-gradient(150deg,#1b2345d9,#101323e8);border-radius:22px;min-height:340px;padding:30px;position:relative;overflow:hidden;transition:transform .25s,border-color .25s}.card:hover{transform:translateY(-8px);border-color:var(--cyan)}.card:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;right:-85px;top:-80px;background:var(--glow);filter:blur(55px);opacity:.45}.symbol{font-size:75px;display:block;margin:25px 0}.card h3{font-size:38px;margin:10px 0}.card p{color:#bec8de;line-height:1.6}.pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:2px;color:var(--cyan)}.adventure{background:linear-gradient(120deg,#e76c27,#9c2d71);border-radius:28px;padding:clamp(30px,6vw,75px);position:relative;overflow:hidden}.adventure h2{margin:15px 0}.adventure p{max-width:540px;line-height:1.7}.adventure:after{content:"✦";font-size:240px;position:absolute;right:8%;top:-30px;opacity:.2}footer{padding:40px 9vw;color:#9ca8c4;border-top:1px solid #ffffff20}#motion{background:none;border:1px solid #ffffff55;border-radius:8px;color:white;padding:8px 12px;cursor:pointer}@media(max-width:760px){header{align-items:flex-start;gap:15px}nav{gap:13px;font-size:12px;flex-wrap:wrap}.hero{min-height:70vh}.grid{grid-template-columns:1fr}.card{min-height:270px}h1{font-size:clamp(85px,21vw,140px)}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
-</style></head><body><canvas id="scene" aria-hidden="true"></canvas><header><a class="brand" href="#">ETHAN<span> // </span>UNIVERSE</a><nav><a href="#teams">THE TEAMS</a><a href="#adventures">ADVENTURES</a><button id="motion" type="button" aria-pressed="true">3D: ON</button></nav></header><main><div class="hero"><div class="hero-inner"><div class="tag">Welcome to the next level</div><h1>THIS IS <span>ETHAN.</span></h1><p class="lead">Big plays. Bigger dreams. Football, basketball, hockey, and adventures worth remembering. This is your universe.</p><a class="button" href="#teams">ENTER THE ARENA ↗</a></div></div><section id="teams"><div class="tag">The starting lineup</div><h2>LEGENDS ONLY.</h2><div class="grid"><article class="card" style="--glow:#ff7626"><div class="pill">NFL // WHO DEY</div><span class="symbol" role="img" aria-label="Football">🏈</span><h3>CINCINNATI BENGALS</h3><p>Orange and black. Game day energy. Every touchdown is a reason to roar.</p></article><article class="card" style="--glow:#ffc72c"><div class="pill">NBA // DUB NATION</div><span class="symbol" role="img" aria-label="Basketball">🏀</span><h3>GOLDEN STATE WARRIORS</h3><p>Deep threes, impossible shots, and the magic of Stephen Curry.</p></article><article class="card" style="--glow:#d5b2ff"><div class="pill">NHL // VEGAS BORN</div><span class="symbol" role="img" aria-label="Ice hockey">🏒</span><h3>VEGAS GOLDEN KNIGHTS</h3><p>Fast skates, fierce competition, and the electric atmosphere of Vegas hockey.</p></article></div></section><section id="adventures"><div class="adventure"><div class="tag" style="color:#fff">Beyond the scoreboard</div><h2>ADVENTURE MODE: ON.</h2><p>From unforgettable Las Vegas trips with Dad to the next big game, the best moments are the ones you live. Keep exploring. Keep playing. Keep making memories.</p><a class="button" href="#teams" style="background:#fff">BACK TO THE ARENA ↑</a></div></section></main><footer>BUILT FOR ETHAN • DREAM BIG • PLAY HARD</footer>
-<script type="module">
-const canvas=document.getElementById('scene');const toggle=document.getElementById('motion');const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;let active=!reduced;toggle.textContent='3D: '+(active?'ON':'OFF');toggle.setAttribute('aria-pressed',String(active));
-try{const THREE=await import('https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js');const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true,powerPreference:'low-power'});renderer.setPixelRatio(Math.min(devicePixelRatio,2));const scene=new THREE.Scene();const camera=new THREE.PerspectiveCamera(48,1,.1,100);camera.position.z=8;scene.add(new THREE.AmbientLight(0x9cb5ff,2));const light=new THREE.PointLight(0xff7833,85);light.position.set(4,4,5);scene.add(light);const group=new THREE.Group();scene.add(group);const ball=new THREE.Mesh(new THREE.IcosahedronGeometry(2.05,3),new THREE.MeshStandardMaterial({color:0xff762a,metalness:.48,roughness:.25,flatShading:true}));group.add(ball);const wire=new THREE.Mesh(new THREE.IcosahedronGeometry(2.12,2),new THREE.MeshBasicMaterial({color:0xffe3a5,wireframe:true,transparent:true,opacity:.16}));group.add(wire);const ring=new THREE.Mesh(new THREE.TorusGeometry(2.8,.025,8,140),new THREE.MeshBasicMaterial({color:0x5fe7ff}));ring.rotation.x=1.05;ring.rotation.y=.4;group.add(ring);const stars=[];for(let i=0;i<170;i++){stars.push((Math.random()-.5)*28,(Math.random()-.5)*18,(Math.random()-.5)*13-4)}const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(stars,3));scene.add(new THREE.Points(geo,new THREE.PointsMaterial({color:0xb5cfff,size:.035})));function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();group.position.x=w>800?2.65:1.3;group.position.y=w>800?0:-1.25;group.scale.setScalar(w>800?1:.65)}addEventListener('resize',resize);resize();toggle.addEventListener('click',()=>{active=!active;toggle.textContent='3D: '+(active?'ON':'OFF');toggle.setAttribute('aria-pressed',String(active));if(active)requestAnimationFrame(tick)});let last=0;function tick(t){if(!active)return;const dt=Math.min((t-last)/1000||0,.05);last=t;group.rotation.y+=dt*.16;group.rotation.x+=dt*.045;renderer.render(scene,camera);requestAnimationFrame(tick)}renderer.render(scene,camera);if(active)requestAnimationFrame(tick)}catch(e){canvas.style.display='none';toggle.style.display='none';console.info('3D enhancement unavailable; showing accessible static website.')}
-</script></body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080b18">
+  <meta name="description" content="Ethan's Arena: a sports-inspired universe with interactive games, trivia, and adventures.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Ethan's Arena">
+  <meta property="og:description" content="Big plays, epic games, and a universe made for Ethan.">
+  <meta name="twitter:card" content="summary">
+  <title>Ethan's Arena — Play Your Game</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body data-team="arena">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="Ethan's Arena, back to top">ETHAN<span> // </span>ARENA</a>
+    <nav aria-label="Primary navigation">
+      <a href="#teams">TEAMS</a>
+      <a href="#play">PLAY</a>
+      <a href="#trivia">TRIVIA</a>
+      <a href="#adventures">ADVENTURES</a>
+    </nav>
+    <button id="motion" class="outline-button motion-toggle" type="button" aria-pressed="true">3D: ON</button>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">WELCOME TO THE NEXT LEVEL <span class="live-dot" aria-hidden="true"></span></p>
+        <h1 id="hero-title">THIS IS <span>ETHAN'S</span> ARENA.</h1>
+        <p class="lead">Big plays. Bigger dreams. Football, basketball, hockey, and adventures worth remembering. Your world. Your rules.</p>
+        <div class="hero-actions">
+          <a class="button" href="#play">START PLAYING <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="#teams">MEET THE TEAMS <span aria-hidden="true">↓</span></a>
+        </div>
+      </div>
+      <div class="hero-stage" id="hero-stage" aria-label="Sports arena illustration with a football, basketball, and hockey puck">
+        <div class="stage-grid" aria-hidden="true"></div>
+        <div class="stage-glow" aria-hidden="true"></div>
+        <div class="arena-fallback" aria-hidden="true"><span>🏈</span><span>🏀</span><span>🏒</span></div>
+        <canvas id="scene" aria-hidden="true"></canvas>
+        <div class="stage-label" aria-hidden="true"><span class="stage-label-dot"></span> THE HOME COURT</div>
+      </div>
+      <div class="hero-stats" aria-label="Arena highlights">
+        <div><strong>03</strong><span>FAVORITE TEAMS</span></div>
+        <div><strong>∞</strong><span>WAYS TO PLAY</span></div>
+        <div><strong>01</strong><span>YOUR UNIVERSE</span></div>
+      </div>
+    </section>
+
+    <section id="teams" class="section-shell" aria-labelledby="teams-title">
+      <div class="section-heading"><div><p class="eyebrow">THE STARTING LINEUP</p><h2 id="teams-title">LEGENDS <em>ONLY.</em></h2></div><p>Pick a team to change the entire arena. Your choice stays on this device.</p></div>
+      <div class="team-grid">
+        <article class="team-card bengals" data-card="bengals">
+          <span class="team-league">NFL // WHO DEY</span><span class="team-art football-art" aria-hidden="true">🏈</span>
+          <h3>CINCINNATI<br>BENGALS</h3><p>Orange and black. Big-game energy. Every touchdown deserves a roar.</p>
+          <button class="team-select" type="button" data-theme="bengals" aria-pressed="false">WEAR THE STRIPES <span aria-hidden="true">↗</span></button>
+        </article>
+        <article class="team-card warriors" data-card="warriors">
+          <span class="team-league">NBA // DUB NATION</span><span class="team-art basketball-art" aria-hidden="true">🏀</span>
+          <h3>GOLDEN STATE<br>WARRIORS</h3><p>Deep threes, clutch shots, and the magic of Stephen Curry.</p>
+          <button class="team-select" type="button" data-theme="warriors" aria-pressed="false">GO GOLDEN <span aria-hidden="true">↗</span></button>
+        </article>
+        <article class="team-card knights" data-card="knights">
+          <span class="team-league">NHL // VEGAS BORN</span><span class="team-art hockey-art" aria-hidden="true">🏒</span>
+          <h3>VEGAS GOLDEN<br>KNIGHTS</h3><p>Fast skates, fearless plays, and the thrill of Vegas hockey.</p>
+          <button class="team-select" type="button" data-theme="knights" aria-pressed="false">GO KNIGHTS GO <span aria-hidden="true">↗</span></button>
+        </article>
+      </div>
+      <div class="theme-status" aria-live="polite" id="theme-status">Arena colors are on. Choose a team to switch.</div>
+    </section>
+
+    <section class="section-shell personal-section" aria-labelledby="personal-title">
+      <div class="section-heading"><div><p class="eyebrow">BUILT FOR ONE PLAYER</p><h2 id="personal-title">ETHAN'S <em>GAME.</em></h2></div><p>Not just teams on a screen. This is about what makes the game yours.</p></div>
+      <div class="personal-grid">
+        <article><span class="personal-number">01 / FIELD</span><div class="personal-icon" aria-hidden="true">⚑</div><h3>FLAG FOOTBALL</h3><p>Fast routes, clever plays, and the thrill of getting open.</p></article>
+        <article><span class="personal-number">02 / COURT</span><div class="personal-icon" aria-hidden="true">◎</div><h3>CURRY RANGE</h3><p>Inspired by Stephen Curry's fearless shots from way downtown.</p></article>
+        <article><span class="personal-number">03 / ADVENTURE</span><div class="personal-icon" aria-hidden="true">✦</div><h3>VEGAS WITH DAD</h3><p>Trips, laughs, and memories that matter more than any scoreboard.</p></article>
+      </div>
+    </section>
+
+    <section id="play" class="section-shell game-section" aria-labelledby="play-title">
+      <div class="section-heading"><div><p class="eyebrow">THE SKILL CHALLENGE</p><h2 id="play-title">SHOOT THE <em>THREE.</em></h2></div><p>Time the release. Hit the green zone. Ten shots to set your high score.</p></div>
+      <div class="game-layout">
+        <div class="game-panel">
+          <div class="scoreboard"><div><span>BUCKETS</span><strong id="shot-score">00</strong></div><div><span>SHOT</span><strong id="shot-round">0 / 10</strong></div><div><span>PERSONAL BEST</span><strong id="shot-best">00</strong></div></div>
+          <div class="court-graphic" aria-hidden="true"><div class="hoop"><div class="backboard"></div><div class="rim"></div><div class="net"></div></div><div class="court-ball" id="court-ball"></div><div class="court-arc"></div></div>
+          <label for="shot-meter" class="meter-label">RELEASE METER <span>GREEN = SWISH</span></label>
+          <div class="meter-track"><div class="meter-zone" aria-hidden="true"></div><div class="meter-marker" id="meter-marker" aria-hidden="true"></div></div>
+          <progress id="shot-meter" max="100" value="0">0%</progress>
+          <div class="game-controls"><button id="shot-button" class="button" type="button">START SHOT</button><button id="shot-reset" class="outline-button" type="button">NEW GAME</button><button id="sound-toggle" class="outline-button" type="button" aria-pressed="false">SOUND: OFF</button></div>
+          <p id="shot-message" class="game-message" role="status" aria-live="polite">Tap START SHOT, then tap RELEASE when the marker reaches green.</p>
+        </div>
+        <aside class="game-aside"><span class="mini-label">COACH'S PLAYBOOK</span><h3>THE PERFECT RELEASE</h3><p>Watch the marker sweep across the meter. Release inside the green window to score. Every round gives you ten attempts.</p><p>Works with touch, mouse, or keyboard. Your personal best is saved only in this browser.</p><div class="aside-stat">10 <span>SHOTS / ROUND</span></div></aside>
+      </div>
+    </section>
+
+    <section id="trivia" class="section-shell trivia-section" aria-labelledby="trivia-title">
+      <div class="section-heading"><div><p class="eyebrow">PROVE YOUR FAN KNOWLEDGE</p><h2 id="trivia-title">TRIVIA <em>BLITZ.</em></h2></div><p>Six quick-fire questions. One championship run. How many can you get?</p></div>
+      <div class="trivia-panel">
+        <div class="trivia-topline"><span id="trivia-progress">QUESTION 1 OF 6</span><span id="trivia-streak">STREAK: 0</span><span id="trivia-best">BEST: 0 / 6</span></div>
+        <h3 id="trivia-question">Ready for tipoff?</h3>
+        <div class="answer-grid" id="trivia-answers"></div>
+        <p class="trivia-feedback" id="trivia-feedback" role="status" aria-live="polite">Choose an answer to begin.</p>
+        <button id="trivia-next" class="button" type="button" hidden>NEXT QUESTION <span aria-hidden="true">↗</span></button>
+        <button id="trivia-restart" class="outline-button" type="button">RESTART TRIVIA</button>
+      </div>
+    </section>
+
+    <section class="section-shell badges-section" aria-labelledby="badges-title">
+      <div class="section-heading"><div><p class="eyebrow">YOUR TROPHY CASE</p><h2 id="badges-title">EARN YOUR <em>STRIPES.</em></h2></div><p>Four achievements to unlock. Progress is saved on this device, no account needed.</p></div>
+      <div class="badge-grid">
+        <div class="achievement" data-badge="explorer"><span aria-hidden="true">◈</span><strong>THE EXPLORER</strong><small>Visit the teams</small></div>
+        <div class="achievement" data-badge="team"><span aria-hidden="true">★</span><strong>TEAM SPIRIT</strong><small>Choose a team theme</small></div>
+        <div class="achievement" data-badge="shooter"><span aria-hidden="true">◎</span><strong>SHARP SHOOTER</strong><small>Make a three</small></div>
+        <div class="achievement" data-badge="trivia"><span aria-hidden="true">♛</span><strong>TRIVIA FINISHER</strong><small>Finish a quiz</small></div>
+      </div>
+      <p class="badge-progress" id="badge-progress" aria-live="polite">0 OF 4 UNLOCKED</p>
+    </section>
+
+    <section id="adventures" class="section-shell" aria-labelledby="adventures-title">
+      <div class="adventure-panel">
+        <div><p class="eyebrow">BEYOND THE SCOREBOARD</p><h2 id="adventures-title">ADVENTURE <em>MODE: ON.</em></h2><p>From Las Vegas trips with Dad to the next big game, the best memories happen away from the screen. Keep exploring. Keep playing. Keep making stories.</p></div>
+        <div class="adventure-mark" aria-hidden="true">✦</div>
+        <div class="memory-grid">
+          <details><summary>VEGAS MEMORIES <span aria-hidden="true">+</span></summary><p>The best part of any trip? The moments you share together.</p></details>
+          <details><summary>GAME-NIGHT ENERGY <span aria-hidden="true">+</span></summary><p>Bring that big-game excitement wherever the next adventure takes you.</p></details>
+          <details><summary>THE NEXT CHAPTER <span aria-hidden="true">+</span></summary><p>New places, new plays, and plenty more stories still to come.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer><span>ETHAN // ARENA</span><span>BUILT TO PLAY. MADE TO EXPLORE.</span><a href="#top">BACK TO TOP ↑</a></footer>
+</body>
+</html>
