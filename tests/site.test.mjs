@@ -92,3 +92,21 @@ test('Number Game has six players with cards', () => {
   }
   assert.match(html, /<section id="numbers"/);
 });
+
+test('The Playbook has six routes, starter plays and the blitz rule', async () => {
+  const pb = read('playbook.js');
+  const { ROUTES, callPlay } = await import('../playbook.js');
+  assert.equal(ROUTES.length, 6);
+  assert.deepEqual(ROUTES.map((r) => r.id), ['go', 'out', 'in', 'slant', 'curl', 'reverse']);
+  for (const id of ['go', 'out', 'in', 'slant', 'curl', 'reverse']) assert.ok(html.includes('data-route="' + id + '"'), 'Missing route button ' + id);
+  for (const name of ['The Reverse', "Colton's Catch", 'The Out Route']) assert.ok(pb.includes(name), 'Missing starter play ' + name);
+  assert.match(html, /<section id="playbook"/);
+  assert.ok(html.includes('./playbook.js'));
+  // Blitz rule: the in route beats the blitz; without an in route the play fails.
+  assert.equal(callPlay({ X: 'go', Y: 'in', Z: 'curl' }, true).score, true);
+  assert.equal(callPlay({ X: 'go', Y: 'slant', Z: 'curl' }, true).score, false);
+  assert.equal(callPlay({ X: 'go', Y: 'out', Z: 'curl' }, false).score, true);
+  assert.match(callPlay({ X: 'go', Y: 'reverse', Z: 'curl' }, false, 'The Reverse').text, /just like Coach drew it/);
+  assert.match(pb, /arena:badge/);
+  assert.match(app, /addEventListener\('arena:badge'/);
+});

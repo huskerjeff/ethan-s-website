@@ -17,5 +17,6 @@ jobs:
         run: |
           node --check app.js
           node --check arena.js
+          node --check playbook.js
       - name: Run dependency-free smoke tests
         run: npm test
