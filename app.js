@@ -185,22 +185,60 @@ document.addEventListener('visibilitychange', () => {
 });
 updateShotUI();
 
-// Verified evergreen sports trivia: no live data, APIs, or tracking.
-const questionBank = [
-  { question: 'How many points is a shot from beyond the NBA three-point line?', answers: ['2 points', '3 points', '4 points', '5 points'], correct: '3 points' },
-  { question: 'Which sport uses a puck?', answers: ['Basketball', 'Baseball', 'Ice hockey', 'Football'], correct: 'Ice hockey' },
-  { question: 'What is the Cincinnati Bengals fan chant?', answers: ['Who Dey', 'Go Pack Go', 'Fly Eagles Fly', 'Skol'], correct: 'Who Dey' },
-  { question: 'What is Stephen Curry famous for?', answers: ['Three-point shooting', 'Goalkeeping', 'Pitching', 'Faceoffs'], correct: 'Three-point shooting' },
-  { question: 'What is the Golden State Warriors fan community often called?', answers: ['Dub Nation', 'The Dawg Pound', 'Raider Nation', 'The 12s'], correct: 'Dub Nation' },
-  { question: 'How many points is an NFL touchdown worth before the extra point?', answers: ['3', '4', '6', '7'], correct: '6' }
+// Quiz Hall: three themed decks plus a mixed deck, and the Number Game.
+// Verified evergreen sports facts only: no live data, APIs, or tracking.
+const q = (question, answers, correct, card) => ({ question, answers, correct, ...(card ? { card } : {}) });
+const decks = {
+  football: {
+    label: 'FOOTBALL', intro: 'Pads optional. Knowledge required.',
+    questions: [
+      q('How many points is a touchdown worth?', ['3', '6', '7', '2'], '6'),
+      q('What is the Cincinnati Bengals fan chant?', ['Who Dey', 'Go Pack Go', 'Fly Eagles Fly', 'Skol'], 'Who Dey'),
+      q('How many Super Bowls have the Bengals played in?', ['1', '2', '3', '4'], '3'),
+      q('What number does Joe Burrow wear?', ['7', '9', '12', '1'], '9'),
+      q('In flag football, how do you stop the ball carrier?', ['Tackle them', 'Pull their flag', 'Tag their helmet', 'Steal the ball'], 'Pull their flag'),
+      q('How many points is a field goal worth?', ['1', '2', '3', '6'], '3'),
+      q('What year did the Bengals play their first season?', ['1960', '1968', '1970', '1976'], '1968'),
+      q('What do Bengals fans shout back after “Who dey think gonna beat dem Bengals?”', ['Nobody!', 'Everybody!', 'The Steelers!', 'Who knows!'], 'Nobody!')
+    ]
+  },
+  basketball: {
+    label: 'BASKETBALL', intro: 'From downtown to the record books.',
+    questions: [
+      q('How many points is a shot from beyond the three-point line?', ['2', '3', '4', '5'], '3'),
+      q('What number does Stephen Curry wear?', ['11', '23', '30', '3'], '30'),
+      q('What record did Stephen Curry break on December 14, 2021?', ['Most points in a game', 'Most career three-pointers', 'Most assists', 'Most steals'], 'Most career three-pointers'),
+      q('How many players from one team are on the court at a time?', ['4', '5', '6', '7'], '5'),
+      q('How many NBA championships did the Warriors win from 2015 to 2022?', ['2', '3', '4', '5'], '4'),
+      q('How many points is a free throw worth?', ['0', '1', '2', '3'], '1'),
+      q('How long is an NBA game, in playing time?', ['40 minutes', '48 minutes', '60 minutes', '90 minutes'], '48 minutes'),
+      q('Which college did Stephen Curry play for?', ['Duke', 'Davidson', 'Kentucky', 'Kansas'], 'Davidson')
+    ]
+  },
+  hockey: {
+    label: 'HOCKEY', intro: 'Fast ice, cold facts.',
+    questions: [
+      q('Which sport uses a puck?', ['Basketball', 'Baseball', 'Ice hockey', 'Football'], 'Ice hockey'),
+      q('How many games did the Golden Knights win in their very first season?', ['33', '41', '51', '61'], '51'),
+      q('Which season did the Golden Knights first play?', ['2015–16', '2016–17', '2017–18', '2019–20'], '2017–18'),
+      q('How many periods are in a hockey game, and how long is each?', ['Two of 30 minutes', 'Three of 20 minutes', 'Four of 15 minutes', 'Three of 15 minutes'], 'Three of 20 minutes'),
+      q("What is the Golden Knights' home arena?", ['T-Mobile Arena', 'Allegiant Stadium', 'The Sphere', 'MGM Grand Garden'], 'T-Mobile Arena'),
+      q('What year did the Golden Knights win their first Stanley Cup?', ['2018', '2021', '2023', '2024'], '2023'),
+      q('What is it called when a player scores three goals in one game?', ['A triple', 'A hat trick', 'A treble', 'A turkey'], 'A hat trick'),
+      q('How many skaters, not counting the goalie, does a team have on the ice?', ['3', '4', '5', '6'], '5')
+    ]
+  }
+};
+const MIXED_COUNT = 10;
+const numberBank = [
+  q('What number does Stephen Curry wear?', ['30', '11', '23'], '30', 'The greatest shooter ever. 4,000+ career threes and counting.'),
+  q('What number does Joe Burrow wear?', ['9', '1', '7'], '9', 'The quarterback who took the Bengals back to the Super Bowl.'),
+  q('What number did Klay Thompson wear for the Warriors?', ['11', '30', '5'], '11', "Curry's Splash Brother. Half of the greatest shooting backcourt ever."),
+  q('What number does Draymond Green wear?', ['23', '11', '30'], '23', 'The heartbeat of the Warriors. Defense, passing, and fire.'),
+  q("What number does Ja'Marr Chase wear?", ['1', '9', '5'], '1', "Burrow's favorite target. One of the fastest receivers in football."),
+  q('What number did Marc-André Fleury wear for the Golden Knights?', ['29', '35', '31'], '29', "The Flower. The goalie who backstopped the Knights' first magical season.")
 ];
-let triviaQuestions = [];
-let questionIndex = 0;
-let triviaScore = 0;
-let triviaStreak = 0;
-let triviaAnswered = false;
-let triviaFinished = false;
-let triviaBest = Number(storage.get('triviaBest', 0)) || 0;
+
 function shuffle(items) {
   const result = [...items];
   for (let i = result.length - 1; i > 0; i--) {
@@ -209,64 +247,108 @@ function shuffle(items) {
   }
   return result;
 }
-function updateTriviaScore() {
-  $('trivia-streak').textContent = 'STREAK: ' + triviaStreak;
-  $('trivia-best').textContent = 'BEST: ' + triviaBest + ' / ' + questionBank.length;
-}
-function showQuestion() {
-  triviaAnswered = false;
-  const q = triviaQuestions[questionIndex];
-  $('trivia-progress').textContent = 'QUESTION ' + (questionIndex + 1) + ' OF ' + triviaQuestions.length;
-  $('trivia-question').textContent = q.question;
-  $('trivia-feedback').textContent = 'Choose one answer.';
-  $('trivia-next').hidden = true;
-  $('trivia-next').textContent = questionIndex === triviaQuestions.length - 1 ? 'SEE RESULTS ↗' : 'NEXT QUESTION ↗';
-  const grid = $('trivia-answers');
-  grid.replaceChildren();
-  shuffle(q.answers).forEach((answer) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'answer';
-    button.textContent = answer;
-    button.addEventListener('click', () => {
-      if (triviaAnswered) return;
-      triviaAnswered = true;
-      const correct = answer === q.correct;
-      if (correct) { triviaScore++; triviaStreak++; } else { triviaStreak = 0; }
-      grid.querySelectorAll('button').forEach((item) => {
-        item.disabled = true;
-        if (item.textContent === q.correct) item.classList.add('correct');
-        if (item === button && !correct) item.classList.add('wrong');
+
+// One quiz state machine drives both Trivia Blitz and the Number Game.
+// Elements are found by prefix: <prefix>-progress, -streak, -best, -question,
+// -answers, -feedback, -next, -restart, and an optional -card.
+function createQuiz(prefix, { onFinish } = {}) {
+  const el = (name) => $(prefix + '-' + name);
+  let questions = [];
+  let index = 0, score = 0, streak = 0, best = 0, bestKey = '';
+  let answered = false, finished = false, restartWith = null;
+  function updateScore() {
+    el('streak').textContent = 'STREAK: ' + streak;
+    el('best').textContent = 'BEST: ' + best + ' / ' + questions.length;
+  }
+  function hideCard() {
+    const card = el('card');
+    if (card) { card.hidden = true; card.textContent = ''; }
+  }
+  function show(moveFocus) {
+    answered = false;
+    const item = questions[index];
+    el('progress').textContent = 'QUESTION ' + (index + 1) + ' OF ' + questions.length;
+    el('question').textContent = item.question;
+    el('feedback').textContent = 'Choose one answer.';
+    el('next').hidden = true;
+    el('next').textContent = index === questions.length - 1 ? 'SEE RESULTS ↗' : 'NEXT QUESTION ↗';
+    hideCard();
+    const grid = el('answers');
+    grid.replaceChildren();
+    shuffle(item.answers).forEach((answer) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'answer';
+      button.textContent = answer;
+      button.addEventListener('click', () => {
+        if (answered) return;
+        answered = true;
+        const correct = answer === item.correct;
+        if (correct) { score++; streak++; } else { streak = 0; }
+        grid.querySelectorAll('button').forEach((other) => {
+          other.disabled = true;
+          if (other.textContent === item.correct) other.classList.add('correct');
+          if (other === button && !correct) other.classList.add('wrong');
+        });
+        el('feedback').textContent = correct ? 'CORRECT! Keep the streak alive.' : 'GOOD TRY! The answer is ' + item.correct + '.';
+        const card = el('card');
+        if (card && correct && item.card) { card.textContent = 'PLAYER CARD: ' + item.card; card.hidden = false; }
+        el('next').hidden = false;
+        el('next').focus();
+        updateScore();
       });
-      $('trivia-feedback').textContent = correct ? 'CORRECT! Keep the streak alive.' : 'GOOD TRY! The answer is ' + q.correct + '.';
-      $('trivia-next').hidden = false;
-      updateTriviaScore();
+      grid.appendChild(button);
     });
-    grid.appendChild(button);
+    if (moveFocus) grid.querySelector('button')?.focus();
+    updateScore();
+  }
+  // source: an array (shuffled each run) or a function returning a fresh question list.
+  function start(source, key, moveFocus = false) {
+    restartWith = () => start(source, key, true);
+    questions = typeof source === 'function' ? source() : shuffle(source);
+    bestKey = key;
+    best = Number(storage.get(bestKey, 0)) || 0;
+    index = 0; score = 0; streak = 0; finished = false;
+    show(moveFocus);
+  }
+  el('next').addEventListener('click', () => {
+    if (!answered || finished) return;
+    index++;
+    if (index < questions.length) { show(true); return; }
+    finished = true;
+    if (score > best) { best = score; storage.set(bestKey, best); }
+    if (onFinish) onFinish(score, questions.length);
+    el('progress').textContent = 'FINAL SCORE';
+    el('question').textContent = score + ' / ' + questions.length + ' — ' + (score === questions.length ? 'PERFECT GAME!' : 'GREAT RUN!');
+    el('answers').replaceChildren();
+    hideCard();
+    el('feedback').textContent = 'Your best score stays on this device. Hit RESTART to play again.';
+    el('next').hidden = true;
+    el('restart').focus();
+    updateScore();
   });
-  updateTriviaScore();
+  el('restart').addEventListener('click', () => { if (restartWith) restartWith(); });
+  return { start };
 }
-function startTrivia() {
-  triviaQuestions = shuffle(questionBank);
-  questionIndex = 0; triviaScore = 0; triviaStreak = 0; triviaFinished = false;
-  showQuestion();
+
+const trivia = createQuiz('trivia', { onFinish: () => earnBadge('trivia') });
+function startDeck(deckId, moveFocus = false) {
+  const deck = decks[deckId];
+  document.querySelectorAll('[data-deck]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.deck === deckId)));
+  if (deck) {
+    $('trivia-deck-intro').textContent = deck.label + ' DECK — ' + deck.intro;
+    trivia.start(deck.questions, 'triviaBest:' + deckId, moveFocus);
+  } else {
+    $('trivia-deck-intro').textContent = 'MIXED DECK — ten questions from all three decks.';
+    const all = Object.values(decks).flatMap((d) => d.questions);
+    trivia.start(() => shuffle(all).slice(0, MIXED_COUNT), 'triviaBest', moveFocus);
+  }
 }
-$('trivia-next').addEventListener('click', () => {
-  if (!triviaAnswered || triviaFinished) return;
-  questionIndex++;
-  if (questionIndex < triviaQuestions.length) { showQuestion(); return; }
-  triviaFinished = true;
-  if (triviaScore > triviaBest) { triviaBest = triviaScore; storage.set('triviaBest', triviaBest); }
-  earnBadge('trivia');
-  $('trivia-progress').textContent = 'FINAL SCORE';
-  $('trivia-question').textContent = triviaScore + ' / ' + triviaQuestions.length + ' — ' + (triviaScore === triviaQuestions.length ? 'PERFECT GAME!' : 'GREAT RUN!');
-  $('trivia-answers').replaceChildren();
-  $('trivia-feedback').textContent = 'Your best score stays on this device. Hit RESTART TRIVIA to play again.';
-  $('trivia-next').hidden = true;
-  updateTriviaScore();
-});
-$('trivia-restart').addEventListener('click', startTrivia);
-startTrivia();
+document.querySelectorAll('[data-deck]').forEach((button) => button.addEventListener('click', () => startDeck(button.dataset.deck, true)));
+startDeck('mixed');
+
+const numberGame = createQuiz('number', { onFinish: () => earnBadge('numbers') });
+numberGame.start(numberBank, 'numberBest');
 
 // The site is fully usable before any third-party 3D code is requested.
 function scheduleArena() {

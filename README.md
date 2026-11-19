@@ -7,7 +7,8 @@ A handcrafted, sports-inspired personal website celebrating Ethan's favorite tea
 - Original responsive night-arena art direction, with team-color themes for the Bengals, Warriors, and Golden Knights
 - Optional, procedurally generated Three.js football, basketball, and hockey puck scene
 - **Shoot the Three:** keyboard/touch timing game, ten shots per round, device-local personal best
-- **Trivia Blitz:** six shuffled evergreen sports questions, streak and device-local high score
+- **Quiz Hall:** Trivia Blitz with Football, Basketball and Hockey decks (8 questions each, 24 total) plus a Mixed deck of 10; best score saved per deck on this device
+- **Number Game:** match six players to their jersey numbers; a player card appears on each correct answer
 - Four achievement badges unlocked by exploring and playing
 - A personal flag-football / Curry / Vegas-with-Dad strip and expandable adventure prompts
 - Optional, **off by default** synthesized swish sound

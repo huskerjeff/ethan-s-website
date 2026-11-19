@@ -103,14 +103,34 @@
     </section>
 
     <section id="trivia" class="section-shell trivia-section" aria-labelledby="trivia-title">
-      <div class="section-heading"><div><p class="eyebrow">PROVE YOUR FAN KNOWLEDGE</p><h2 id="trivia-title">TRIVIA <em>BLITZ.</em></h2></div><p>Six quick-fire questions. One championship run. How many can you get?</p></div>
+      <div class="section-heading"><div><p class="eyebrow">QUIZ HALL</p><h2 id="trivia-title">TRIVIA <em>BLITZ.</em></h2></div><p>Three decks. Twenty-four questions. Pick your game.</p></div>
       <div class="trivia-panel">
-        <div class="trivia-topline"><span id="trivia-progress">QUESTION 1 OF 6</span><span id="trivia-streak">STREAK: 0</span><span id="trivia-best">BEST: 0 / 6</span></div>
+        <div class="deck-picker" role="group" aria-label="Choose a trivia deck">
+          <button class="outline-button deck-select" type="button" data-deck="football" aria-pressed="false">FOOTBALL</button>
+          <button class="outline-button deck-select" type="button" data-deck="basketball" aria-pressed="false">BASKETBALL</button>
+          <button class="outline-button deck-select" type="button" data-deck="hockey" aria-pressed="false">HOCKEY</button>
+          <button class="outline-button deck-select" type="button" data-deck="mixed" aria-pressed="true">MIXED</button>
+        </div>
+        <p class="deck-intro" id="trivia-deck-intro">MIXED DECK — ten questions from all three decks.</p>
+        <div class="trivia-topline"><span id="trivia-progress">QUESTION 1 OF 10</span><span id="trivia-streak">STREAK: 0</span><span id="trivia-best">BEST: 0 / 10</span></div>
         <h3 id="trivia-question">Ready for tipoff?</h3>
         <div class="answer-grid" id="trivia-answers"></div>
         <p class="trivia-feedback" id="trivia-feedback" role="status" aria-live="polite">Choose an answer to begin.</p>
         <button id="trivia-next" class="button" type="button" hidden>NEXT QUESTION <span aria-hidden="true">↗</span></button>
         <button id="trivia-restart" class="outline-button" type="button">RESTART TRIVIA</button>
+      </div>
+    </section>
+
+    <section id="numbers" class="section-shell trivia-section" aria-labelledby="numbers-title">
+      <div class="section-heading"><div><p class="eyebrow">WHO WEARS WHAT?</p><h2 id="numbers-title">NUMBER <em>GAME.</em></h2></div><p>Every legend has a number. Match the player to the jersey — six rounds, three choices each.</p></div>
+      <div class="trivia-panel">
+        <div class="trivia-topline"><span id="number-progress">QUESTION 1 OF 6</span><span id="number-streak">STREAK: 0</span><span id="number-best">BEST: 0 / 6</span></div>
+        <h3 id="number-question">Who wears what?</h3>
+        <div class="answer-grid number-grid" id="number-answers"></div>
+        <p class="trivia-feedback" id="number-feedback" role="status" aria-live="polite">Choose an answer to begin.</p>
+        <p class="player-card" id="number-card" hidden></p>
+        <button id="number-next" class="button" type="button" hidden>NEXT QUESTION <span aria-hidden="true">↗</span></button>
+        <button id="number-restart" class="outline-button" type="button">RESTART NUMBER GAME</button>
       </div>
     </section>
 
