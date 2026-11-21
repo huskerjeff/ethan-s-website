@@ -117,7 +117,7 @@ test('Trophy Case has 13 badges with SVG glyphs and wired unlocks', () => {
   assert.equal(ids.length, 13);
   for (const id of ids) assert.ok(app.includes('  ' + id + ": { name: '"), 'Badge missing from BADGES: ' + id);
   assert.doesNotMatch(html.slice(html.indexOf('badge-grid'), html.indexOf('id="badge-progress"')), /<span aria-hidden="true">[^<]/, 'Badges should use SVG glyphs, not text symbols');
-  assert.equal((html.match(/data-soon/g) || []).length, 5);
+  assert.equal((html.match(/data-soon/g) || []).length, 3);
   assert.match(pb, /badge\('playcaller'\)/);
   assert.match(pb, /badge\('routerunner'\)/);
   assert.match(app, /earnBadge\('numbers'\)/);
@@ -128,13 +128,13 @@ test('Trophy Case has 13 badges with SVG glyphs and wired unlocks', () => {
 test('Trophy Case round 4: badge links, unlock banner, progress on top', () => {
   const shelf = html.slice(html.indexOf('id="trophies"'), html.indexOf('id="adventures"'));
   // 1. The seven earnable badges link to the game that earns them; COMING SOON badges stay plain.
-  const links = { explorer: 'teams', team: 'teams', shooter: 'play', trivia: 'trivia', playcaller: 'playbook', routerunner: 'playbook', numbers: 'numbers' };
+  const links = { explorer: 'teams', team: 'teams', shooter: 'play', trivia: 'trivia', playcaller: 'playbook', routerunner: 'playbook', numbers: 'numbers', downtown: 'curry-range', recordchaser: 'curry-records-title' };
   for (const [id, target] of Object.entries(links)) {
     assert.ok(shelf.includes('<a class="achievement" data-badge="' + id + '" href="#' + target + '">'), 'Badge should link to its game: ' + id);
     assert.ok(app.includes("go: '#" + target + "'"), 'BADGES entry should point to #' + target);
   }
-  assert.equal((shelf.match(/<a class="achievement"/g) || []).length, 7);
-  assert.equal((shelf.match(/<div class="achievement"[^>]*data-soon/g) || []).length, 5);
+  assert.equal((shelf.match(/<a class="achievement"/g) || []).length, 9);
+  assert.equal((shelf.match(/<div class="achievement"[^>]*data-soon/g) || []).length, 3);
   assert.match(app, /badge-next-link/);
   assert.match(css, /a\.achievement:focus-visible/);
   // 2. Unlocks show a dismissible banner next to the game's own status line.
@@ -152,4 +152,47 @@ test('Trophy Case round 4: badge links, unlock banner, progress on top', () => {
   const next = shelf.indexOf('id="badge-next"');
   const grid = shelf.indexOf('class="badge-grid"');
   assert.ok(heading < progress && progress < next && next < grid, 'Progress and NEXT UP should come before the badge grid');
+});
+
+
+test('The Court has five ordered spots, four record cards and badge links', async () => {
+  const { SPOTS, RECORDS } = await import('../curry.js');
+  assert.equal(SPOTS.length, 5); assert.equal(RECORDS.length, 4);
+  assert.deepEqual(SPOTS.map(s => s.zone), [30,24,18,14,10]);
+  assert.deepEqual(SPOTS.map(s => s.speed), [.05,.06,.07,.08,.09]);
+  assert.equal((html.match(/data-curry-spot=/g)||[]).length,5);
+  assert.equal((html.match(/data-curry-record=/g)||[]).length,4);
+  assert.ok(html.indexOf('id="play"') < html.indexOf('id="curry-range"'));
+  assert.ok(html.indexOf('id="curry-range"') < html.indexOf('id="trivia"'));
+  assert.match(app, /dispatchEvent\(new CustomEvent\('arena:three'\)\)/);
+  assert.match(html, /src=".\/curry.js"/);
+});
+
+test('The Court keeps per-spot streaks, unlocks sequentially and survives serialization', async () => {
+  const { rangeState, takeShot } = await import('../curry.js');
+  let state=rangeState();
+  assert.equal(state.unlocked,0); assert.equal(state.spot,0);
+  state=takeShot(state,50).state; state=takeShot(state,50).state;
+  state=takeShot(state,0).state;
+  assert.equal(state.streak[0],0); assert.equal(state.best[0],2); assert.equal(state.unlocked,0);
+  for(let i=0;i<3;i++) state=takeShot(state,50).state;
+  assert.equal(state.unlocked,1);
+  state=rangeState(JSON.parse(JSON.stringify(state))); assert.equal(state.unlocked,1);
+  for(let spot=1;spot<4;spot++) { state.spot=spot; for(let i=0;i<3;i++) state=takeShot(state,50).state; }
+  assert.equal(state.unlocked,4);
+  state.spot=4;
+  assert.equal(takeShot(state,44).made,false); assert.equal(takeShot(state,45).made,true); assert.equal(takeShot(state,55).made,true); assert.equal(takeShot(state,56).made,false);
+  assert.equal(rangeState({spot:4,unlocked:0}).spot,0);
+  assert.deepEqual(rangeState({flipped:[0,0,4,-1,1]}).flipped,[0,1]);
+});
+
+test('Practice counter increments safely and exposes only reached milestones', async () => {
+  const { nextTotal, milestonesAt, MILESTONES } = await import('../curry.js');
+  assert.equal(nextTotal(9),10); assert.equal(nextTotal(-2),1);
+  assert.equal(nextTotal(Number.MAX_SAFE_INTEGER),Number.MAX_SAFE_INTEGER);
+  for(const m of MILESTONES) {
+    assert.equal(milestonesAt(m.n-1).some(x=>x.n===m.n),false);
+    assert.equal(milestonesAt(nextTotal(m.n-1)).at(-1).text,m.text);
+  }
+  assert.deepEqual(milestonesAt(0),[]);
 });
