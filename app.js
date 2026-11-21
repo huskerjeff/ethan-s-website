@@ -25,8 +25,8 @@ const BADGES = {
   playcaller: { name: 'PLAY CALLER', hint: 'pick a route on the Playbook board', go: '#playbook', where: 'The Playbook', near: 'playbook-result' },
   routerunner: { name: 'ROUTE RUNNER', hint: 'save three plays in the Playbook', go: '#playbook', where: 'The Playbook', near: 'playbook-save-status' },
   numbers: { name: 'NUMBER CRUNCHER', hint: 'finish the Number Game', go: '#numbers', where: 'the Number Game', near: 'number-feedback' },
-  downtown: { name: 'DOWNTOWN', soon: true },
-  recordchaser: { name: 'RECORD CHASER', soon: true },
+  downtown: { name: 'DOWNTOWN', hint: 'reach Half Court on the Curry ladder', go: '#curry-range', where: 'Curry Range', near: 'curry-message' },
+  recordchaser: { name: 'RECORD CHASER', hint: 'flip all four Curry record cards', go: '#curry-records-title', where: "Curry's Records", near: 'curry-records-title' },
   hattrick: { name: 'HAT TRICK HERO', soon: true },
   desert: { name: 'DESERT EXPLORER', soon: true },
   journalist: { name: 'JOURNALIST', soon: true },
@@ -231,6 +231,7 @@ function playSwishSound() {
     osc.stop(now + .21);
   } catch { /* Audio is optional. */ }
 }
+document.addEventListener('arena:swish', playSwishSound);
 function animateBall(made) {
   courtBall.classList.remove('swish', 'miss');
   if (reducedMotion) return;
@@ -244,6 +245,7 @@ shotButton.addEventListener('click', () => {
     const made = meter >= 43 && meter <= 57;
     if (made) {
       buckets++;
+      document.dispatchEvent(new CustomEvent('arena:three'));
       earnBadge('shooter');
       playSwishSound();
     }

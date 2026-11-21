@@ -7,10 +7,12 @@ A handcrafted, sports-inspired personal website celebrating Ethan's favorite tea
 - Original responsive night-arena art direction, with team-color themes for the Bengals, Warriors, and Golden Knights
 - Optional, procedurally generated Three.js football, basketball, and hockey puck scene
 - **Shoot the Three:** keyboard/touch timing game, ten shots per round, device-local personal best
+- **Curry Range:** five shooting spots, shrinking release windows, saved streaks, and four flippable Curry record stories
+- **The Record Wall:** a lifetime device-local practice-make counter shared by both shooting games, milestones, and an in-page reset confirmation
 - **The Playbook:** a flag-football coach's board. Pick a route for each receiver (Go, Out, In, Slant, Curl, Reverse), run the play, toggle the blitz, and save named plays on this device. Ships with three coach's plays
 - **Quiz Hall:** Trivia Blitz with Football, Basketball and Hockey decks (8 questions each, 24 total) plus a Mixed deck of 10; best score saved per deck on this device
 - **Number Game:** match six players to their jersey numbers; a player card appears on each correct answer
-- **Trophy Case:** 13 badges with original SVG glyphs. The progress count and a NEXT UP link sit above the shelf. Seven can be earned today, and each of those badges links to the game that earns it; five are marked COMING SOON until their rooms are built; ARENA LEGEND unlocks when all others are earned. A BADGE UNLOCKED banner appears inside the game where a badge is earned (about 5 seconds, or until dismissed)
+- **Trophy Case:** 13 badges with original SVG glyphs. The progress count and a NEXT UP link sit above the shelf. Nine can be earned today, and each of those badges links to the game that earns it; three are marked COMING SOON until their rooms are built; ARENA LEGEND unlocks when all others are earned. A BADGE UNLOCKED banner appears inside the game where a badge is earned (about 5 seconds, or until dismissed)
 - A personal flag-football / Curry / Vegas-with-Dad strip and expandable adventure prompts
 - Optional, **off by default** synthesized swish sound
 - Reduced-motion, keyboard-focus, WebGL failure, and mobile fallbacks
@@ -51,6 +53,7 @@ Alternatively, a private preview can be hosted through a provider chosen by the 
 - `styles.css` — responsive art direction, team themes, and reduced-motion styles
 - `app.js` — games, trivia, badges, themes, device-local persistence, optional audio
 - `playbook.js` — The Playbook coach's board (self-contained module; announces badges with an `arena:badge` event)
+- `curry.js` — The Court ladder, record cards and shared practice counter (Node-safe data exports)
 - `arena.js` — lazy Three.js enhancement with static and low-power fallbacks
 - `favicon.svg` — original site mark
 - `tests/site.test.mjs` — dependency-free smoke tests
