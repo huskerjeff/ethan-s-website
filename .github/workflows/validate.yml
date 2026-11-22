@@ -18,5 +18,6 @@ jobs:
           node --check app.js
           node --check arena.js
           node --check playbook.js
+          node --check curry.js
       - name: Run dependency-free smoke tests
         run: npm test

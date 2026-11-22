@@ -114,6 +114,34 @@ footer span:first-child{font:900 23px 'Barlow Condensed',Impact,sans-serif;color
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation:none!important;transition:none!important}.court-ball.swish,.court-ball.miss{animation:none}}
 
 [hidden]{display:none!important}
+
+/* The Court: a readable distance ladder, record cards and lifetime counter. */
+.curry-layout{display:grid;grid-template-columns:minmax(230px,.8fr) minmax(0,1.4fr);gap:20px;align-items:start}
+.curry-ladder{display:grid;gap:12px}
+.curry-spot{display:grid;gap:10px;min-height:96px;padding:20px;text-align:left;border:1px solid var(--outline);border-radius:16px;background:var(--panel);color:var(--text)}
+.curry-spot strong{font-size:18px}.curry-spot small{display:block;font-size:14px;color:var(--muted)}
+.curry-spot-state{font-size:12px;line-height:1.6;color:var(--muted)}
+.curry-spot[aria-pressed=true]{border:2px solid var(--accent);background:var(--panel2)}
+.curry-spot:disabled{opacity:.75;border-style:dashed}
+.curry-panel{min-width:0}.curry-panel h3,.curry-records h3,.record-wall h3{font-size:clamp(30px,4vw,48px);line-height:1.1;margin:0 0 16px}
+.curry-panel p,.curry-records>p,.record-wall>p{font-size:16px;color:var(--muted)}
+.curry-scores{display:flex;flex-wrap:wrap;gap:10px 24px;color:var(--accent);font-size:16px}
+#curry-meter{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+#curry-zone{left:35%;width:30%}
+.curry-note{font-size:14px!important;line-height:1.7;color:var(--muted)}
+.curry-records{margin-top:50px;scroll-margin-top:24px}.curry-record-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:start}
+.curry-record{display:flex;flex-direction:column;gap:14px;min-height:155px;min-width:0;padding:22px 18px;text-align:left;border:1px solid var(--outline);border-radius:16px;background:var(--panel);color:var(--text)}
+.curry-record strong{font:900 clamp(36px,4vw,55px) 'Barlow Condensed',Impact,sans-serif;color:var(--accent)}
+.curry-record>span{font-size:12px;line-height:1.6}.curry-record .curry-record-story{font-size:16px;color:var(--muted)}
+.curry-record[aria-expanded=true]{border-color:var(--accent)}
+.record-wall{margin-top:40px;border:1px solid var(--outline);border-radius:22px;padding:clamp(20px,4vw,40px);background:linear-gradient(135deg,var(--panel2),var(--panel))}
+.record-count{display:grid;gap:8px}.record-count>span{font-size:14px;font-weight:800;letter-spacing:1px}
+.record-count strong{font:900 clamp(48px,10vw,100px) 'Barlow Condensed',Impact,sans-serif;color:var(--accent);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+#record-message{min-height:54px;color:var(--cyan);font-size:16px}
+#record-milestones{padding-left:22px;color:var(--muted);font-size:16px}
+#record-confirm{margin-top:18px;padding:16px;border:1px solid var(--accent);border-radius:12px}
+@media(max-width:760px){.curry-layout{grid-template-columns:minmax(0,1fr)}.curry-record-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.curry-ladder{gap:10px}}
+@media(max-width:390px){.curry-record-grid{grid-template-columns:minmax(0,1fr)}.curry-panel .meter-label{font-size:10px;letter-spacing:.3px}.curry-spot{padding:16px}.curry-record{min-height:130px}}
 .deck-picker{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}.trivia-panel .deck-picker .deck-select{margin:0}.deck-select[aria-pressed=true]{border-color:var(--accent);background:#ffffff2b;color:var(--accent-soft)}
 .deck-intro{margin:0 0 18px;font-size:12px;font-weight:800;letter-spacing:1px;color:var(--muted)}
 .number-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.number-grid .answer{text-align:center;font:900 34px 'Barlow Condensed',Impact,sans-serif}
